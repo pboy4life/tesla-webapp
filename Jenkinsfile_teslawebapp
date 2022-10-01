@@ -14,12 +14,12 @@ node{
     //sh "${mavenHome}/bin/mvn deploy"
     //http://35.182.246.127:8255/royalsdown/repository/tesla-fe-releases/
     //http://35.182.246.127:8255/royalsdown/repository/tesla-fe-snapshots/
-    // vi pom.xml and nexus repository details   
+    // vi pom.xml and add nexus repository details   
     // vi setting.xml and add nexus authentication details  
   } 
  stage('5Deploy2UAT'){
     sh "echo 'Deploy to UAT'"
-    deploy adapters: [tomcat9(credentialsId: 'TomcatCredentials', path: '', url: 'http://15.222.242.57:8080/')], contextPath: null, war: 'target/*war'
+    deploy adapters: [tomcat9(credentialsId: 'tomcatcredentials', path: '', url: 'http://99.79.70.63:8080/')], contextPath: null, war: 'target/*war'
   }
  stage('6ApprovalGate'){
     sh "echo 'Ready for review'"
@@ -30,13 +30,13 @@ node{
  stage('7Deploy2Prod'){
     sh "sleep 50"
     sh "echo 'Approval received - Client is happy, please Deploy to Production'"
-    deploy adapters: [tomcat9(credentialsId: 'TomcatCredentials', path: '', url: 'http://15.222.242.57:8080/')], contextPath: null, war: 'target/*war'
+    deploy adapters: [tomcat9(credentialsId: 'tomcatcredentials', path: '', url: 'http://99.79.70.63:8080/')], contextPath: null, war: 'target/*war'
   }
  stage('8emailNotification'){
   emailext body: '''Hello Team,
 
 The tesla-webapp project has been approved and successfully deployed to Production.
-Great job Team Champions for your relentless hardwork and display of professionalism on this project.
+Great job Team Champions for your relentless hard work and display of professionalism on this project.
         
 Thank you!!
 
@@ -46,6 +46,6 @@ Regards,
 
 Pboy4life
 For: Management,
-Omi\'s Dev Ventures and Technologies. ''', recipientProviders: [developers(), requestor()], subject: 'Tesla-webapp Build Status', to: 'paroyal007@gmail.com'
+Omi\'s Dev Ventures and Technologies.''', recipientProviders: [developers(), requestor()], subject: 'Tesla-webapp Build Status', to: 'paroyal007@gmail.com'
  }
 }
